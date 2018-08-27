@@ -102,7 +102,7 @@ module.exports = (html, options) => {
       }
     } else if (src.indexOf('//') !== -1) {
       const imageUrl = element.attribs.src;
-      const response = request('GET', imageUrl);
+      const response = request(imageUrl);
       if (response.statusCode === 200) {
         const size = sizeOf(response.body);
         $(element).attr({
@@ -130,7 +130,7 @@ module.exports = (html, options) => {
           file = setFile(String(fs.readFileSync(path)));
         }
       } else if (src.indexOf('//') !== -1) {
-        file = setFile(String(request('GET', path).body));
+        file = setFile(String(request(path, 'GET').body));
       }
     } catch (err) {
       console.dir(err);
@@ -167,5 +167,5 @@ module.exports = (html, options) => {
     $(element).html($(ampElement).html());
   });
 
-  return $.html();
+  return Promise.resolve($.html());
 };
